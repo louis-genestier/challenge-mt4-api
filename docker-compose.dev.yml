@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  vscode:
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile.dev
+    command: sleep infinity
+    container_name: challenge_api
+    working_dir: /server
+    networks: 
+      - app-network
+    volumes:
+      - .:/server:cached
+  db:
+    image: mariadb
+    restart: always
+    ports: 
+      - "3309:3306"
+    env_file:
+      - ./db/.env.dev
+    command: [
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci",
+    ]
+    volumes:
+      - ./db/conf:/etc/mysql/conf.d
+      - ./db/db-data:/var/lib/mysql
+      - ./db/dev-init:/docker-entrypoint-initdb.d
+    networks: 
+      - app-network
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    networks: 
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge

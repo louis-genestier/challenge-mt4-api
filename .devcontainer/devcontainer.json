@@ -1,0 +1,17 @@
+{
+  "name": "MT4 challenge API",
+  "dockerComposeFile": ["../docker-compose.dev.yml"],
+  "service": "vscode",
+  "workspaceFolder": "/server",
+  "settings": {},
+  "postCreateCommand": "npm i && npm run hooks && npm run migrate",
+  "extensions": [
+    "pmneo.tsimporter",
+    "stringham.move-ts",
+    "rbbit.typescript-hero",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "prisma.prisma"
+  ]
+}

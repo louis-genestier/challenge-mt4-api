@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id Int @id @default(autoincrement())
+  first_name String @db.VarChar(255)
+  last_name String @db.VarChar(255)
+  email String @db.VarChar(255) @unique
+  password String @db.VarChar(255)
+  created_at DateTime @default(now())
+  instance Instance?
+  promotion Promotion @relation(fields: [promotion_id], references: [id])
+  promotion_id Int
+  grades Grade[]
+}
+
+model Promotion {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255) @unique
+  students Student[]
+}
+
+model Instance {
+  id Int @id @default(autoincrement())
+  ip String @db.VarChar(255)
+  user String @db.VarChar(255)
+  student Student @relation(fields: [student_id], references: [id])
+  student_id Int @unique
+}
+
+model Grade {
+  id Int @id @default(autoincrement())
+  grade Int
+  student Student @relation(fields: [student_id], references: [id])
+  student_id Int
+  created_at DateTime @default(now())
+}
+
+model Challenge {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(255)
+  content String
+  command_to_exec String
+  expected_output String
+  points Int
+}

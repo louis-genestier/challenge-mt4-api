@@ -1,0 +1,35 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon",
+    "hooks": "husky install",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "migrate": "npx prisma migrate dev"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier && npm run lint"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.38",
+    "@typescript-eslint/eslint-plugin": "^5.27.0",
+    "@typescript-eslint/parser": "^5.27.0",
+    "eslint": "^8.16.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-no-secrets": "^0.8.9",
+    "eslint-plugin-unicorn": "^42.0.0",
+    "husky": "^8.0.1",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.6.2",
+    "prisma": "^3.14.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.14.0"
+  }
+}
