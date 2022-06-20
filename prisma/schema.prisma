@@ -8,45 +8,71 @@ datasource db {
 }
 
 model Student {
-  id Int @id @default(autoincrement())
-  first_name String @db.VarChar(255)
-  last_name String @db.VarChar(255)
-  email String @db.VarChar(255) @unique
-  password String @db.VarChar(255)
-  created_at DateTime @default(now())
-  instance Instance?
-  promotion Promotion @relation(fields: [promotion_id], references: [id])
+  id           Int       @id @default(autoincrement())
+  first_name   String    @db.VarChar(255)
+  last_name    String    @db.VarChar(255)
+  email        String    @unique @db.VarChar(255)
+  password     String    @db.VarChar(255)
+  created_at   DateTime  @default(now())
+  instance     Instance?
+  promotion    Promotion @relation(fields: [promotion_id], references: [id])
   promotion_id Int
-  grades Grade[]
+  grades       Grade[]
 }
 
 model Promotion {
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(255) @unique
-  students Student[]
+  id         Int         @id @default(autoincrement())
+  name       String      @unique @db.VarChar(255)
+  students   Student[]
+  challenges Challenge[]
 }
 
 model Instance {
-  id Int @id @default(autoincrement())
-  ip String @db.VarChar(255)
-  user String @db.VarChar(255)
-  student Student @relation(fields: [student_id], references: [id])
-  student_id Int @unique
+  id         Int       @id @default(autoincrement())
+  ip         String    @db.VarChar(255)
+  user       String    @db.VarChar(255)
+  student    Student   @relation(fields: [student_id], references: [id])
+  student_id Int       @unique
+  database   Database?
+}
+
+model Database {
+  id          Int      @id @default(autoincrement())
+  host        String   @db.VarChar(255)
+  user        String   @db.VarChar(255)
+  password    String   @db.VarChar(255)
+  instance_id Int      @unique
+  instance    Instance @relation(fields: [instance_id], references: [id])
 }
 
 model Grade {
-  id Int @id @default(autoincrement())
-  grade Int
-  student Student @relation(fields: [student_id], references: [id])
-  student_id Int
-  created_at DateTime @default(now())
+  id            Int       @id @default(autoincrement())
+  grade         Int
+  student       Student   @relation(fields: [student_id], references: [id])
+  student_id    Int
+  created_at    DateTime  @default(now())
+  last_question Question? @relation(fields: [questionId], references: [id])
+  questionId    Int
+  challenge_id  Int
+  challenge     Challenge @relation(fields: [challenge_id], references: [id])
+}
+
+model Question {
+  id              Int       @id @default(autoincrement())
+  title           String    @db.VarChar(255)
+  content         String
+  command_to_exec String
+  expected_output String
+  points          Int
+  challenge_id    Int
+  challenge       Challenge @relation(fields: [challenge_id], references: [id])
+  Grade           Grade[]
 }
 
 model Challenge {
-  id Int @id @default(autoincrement())
-  title String @db.VarChar(255)
-  content String
-  command_to_exec String
-  expected_output String
-  points Int
+  id         Int         @id @default(autoincrement())
+  name       String
+  promotions Promotion[]
+  questions  Question[]
+  grades     Grade[]
 }
