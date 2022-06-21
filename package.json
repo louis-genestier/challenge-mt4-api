@@ -11,11 +11,6 @@
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "migrate": "npx prisma migrate dev"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run prettier && npm run lint"
-    }
-  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
