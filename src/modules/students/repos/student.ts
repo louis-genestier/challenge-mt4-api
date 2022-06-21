@@ -1,9 +1,9 @@
-import { PrismaClient, Student } from "@prisma/client"
+import { PrismaClient, Student } from '@prisma/client'
 import bcrypt from 'bcrypt'
 
-import { registerUserDto } from "modules/students/dtos/registerStudentDto"
-import { ApiError } from 'shared/infra/http/errors/apiError';
-import { HttpErrorCode } from 'shared/infra/http/errors/httpErrorCode';
+import { registerUserDto } from 'modules/students/dtos/registerStudentDto'
+import { ApiError } from 'shared/infra/http/errors/apiError'
+import { HttpErrorCode } from 'shared/infra/http/errors/httpErrorCode'
 
 export class StudentRepo {
   private readonly prisma: PrismaClient
@@ -14,7 +14,7 @@ export class StudentRepo {
 
   async exists(email: string): Promise<boolean> {
     const student = await this.prisma.student.findUnique({
-      where: { email }
+      where: { email },
     })
 
     return !!student
@@ -22,7 +22,7 @@ export class StudentRepo {
 
   async findByEmail(email: string): Promise<Student> {
     const student: Student | null = await this.prisma.student.findUnique({
-      where: { email }
+      where: { email },
     })
 
     if (!student) throw new ApiError(HttpErrorCode.NotFound, 'user not found')

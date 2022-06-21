@@ -9,7 +9,6 @@ import { ApiError } from 'shared/infra/http/errors/apiError'
 import { HttpErrorCode } from 'shared/infra/http/errors/httpErrorCode'
 
 export class StudentController {
-
   private readonly studentRepo: StudentRepo
   private readonly jwt: JWT
 
@@ -18,10 +17,13 @@ export class StudentController {
     this.jwt = new JWT()
   }
 
-  async createUser(dto: registerUserDto): Promise<{ student: Student, accessToken: string, refreshToken: string }> {
+  async createUser(
+    dto: registerUserDto,
+  ): Promise<{ student: Student; accessToken: string; refreshToken: string }> {
     const studentExists = await this.studentRepo.exists(dto.email)
 
-    if (studentExists) throw new ApiError(HttpErrorCode.BadRequest, 'user already exists')
+    if (studentExists)
+      throw new ApiError(HttpErrorCode.BadRequest, 'user already exists')
 
     const student: Student = await this.studentRepo.save(dto)
     const tokens = await this.jwt.getTokens(student)
@@ -29,16 +31,20 @@ export class StudentController {
     return { student, ...tokens }
   }
 
-  async login(dto: loginStudentDto): Promise<{ student: Student, accessToken: string, refreshToken: string }> {
+  async login(
+    dto: loginStudentDto,
+  ): Promise<{ student: Student; accessToken: string; refreshToken: string }> {
     const studentExists = await this.studentRepo.exists(dto.email)
 
-    if (!studentExists) throw new ApiError(HttpErrorCode.BadRequest, 'user does not exists')
+    if (!studentExists)
+      throw new ApiError(HttpErrorCode.BadRequest, 'user does not exists')
 
     const student = await this.studentRepo.findByEmail(dto.email)
 
     const isPasswordValid = await bcrypt.compare(dto.password, student.password)
 
-    if (!isPasswordValid) throw new ApiError(HttpErrorCode.BadRequest, 'bad combination')
+    if (!isPasswordValid)
+      throw new ApiError(HttpErrorCode.BadRequest, 'bad combination')
     const tokens = await this.jwt.getTokens(student)
 
     return { student, ...tokens }

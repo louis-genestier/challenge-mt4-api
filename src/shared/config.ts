@@ -12,16 +12,16 @@ const loadEnvVariable = (name: string): string => {
 
 export const config = {
   api: {
-    port: parseInt(loadEnvVariable('API_PORT'))
+    port: parseInt(loadEnvVariable('API_PORT')),
   },
   jwt: {
     accessToken: {
       secret: loadEnvVariable('ACCESS_TOKEN_SECRET'),
-      exp: loadEnvVariable('ACCESS_TOKEN_EXP')
+      exp: loadEnvVariable('ACCESS_TOKEN_EXP'),
     },
     refreshToken: {
       secret: loadEnvVariable('REFRESH_TOKEN_SECRET'),
-      exp: loadEnvVariable('REFRESH_TOKEN_EXP')
+      exp: loadEnvVariable('REFRESH_TOKEN_EXP'),
     },
-  }
+  },
 }

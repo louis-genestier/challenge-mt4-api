@@ -1,4 +1,4 @@
 export interface loginStudentDto {
-  email: string,
+  email: string
   password: string
 }

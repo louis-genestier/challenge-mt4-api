@@ -6,7 +6,7 @@ import { errorHandler } from 'shared/infra/http/middlewares/errorHandler'
 import { logger } from 'shared/utils/logger'
 
 export class Server {
-  private readonly app: Express;
+  private readonly app: Express
 
   constructor() {
     this.app = express()
@@ -20,7 +20,9 @@ export class Server {
       this.app.use(errorHandler)
 
       await this.app.listen(port, () => {
-        logger.info(`⚡️[server]: Server is running at https://localhost:${port}`)
+        logger.info(
+          `⚡️[server]: Server is running at https://localhost:${port}`,
+        )
       })
     } catch (e) {
       logger.error(e)

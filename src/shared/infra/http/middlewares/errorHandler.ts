@@ -1,5 +1,13 @@
 import { NextFunction, Request, Response } from 'express'
 
-export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+import { ApiError } from 'shared/infra/http/errors/apiError'
+
+export const errorHandler = (
+  err: ApiError,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next: NextFunction,
+) => {
   return res.status(err.httpCode).json(err.json)
 }

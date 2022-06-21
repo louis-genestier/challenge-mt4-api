@@ -13,21 +13,23 @@ export class Shell {
 
     let stdout: string, stderr: string
     return new Promise((resolve, reject) => {
-      this.conn.on('ready', () => {
-        this.conn.exec(command, (err, stream) => {
-          if (err) reject(err)
-          stream
-            .on('close', () => {
-              this.conn.end()
-            })
-            .on('data', (data: string) => {
-              stdout = data
-            })
-            .stderr.on('data', (data: string) => {
-              stderr = data
-            })
+      this.conn
+        .on('ready', () => {
+          this.conn.exec(command, (err, stream) => {
+            if (err) reject(err)
+            stream
+              .on('close', () => {
+                this.conn.end()
+              })
+              .on('data', (data: string) => {
+                stdout = data
+              })
+              .stderr.on('data', (data: string) => {
+                stderr = data
+              })
+          })
         })
-      }).connect({ ...ctx, privateKey })
+        .connect({ ...ctx, privateKey })
 
       resolve({ stdout, stderr })
     })
