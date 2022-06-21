@@ -3,6 +3,7 @@
   "dockerComposeFile": ["../docker-compose.dev.yml"],
   "service": "vscode",
   "workspaceFolder": "/server",
+  "forwardPorts": [5050],
   "settings": {},
   "postCreateCommand": "npm i && npm run hooks && npm run migrate",
   "extensions": [
