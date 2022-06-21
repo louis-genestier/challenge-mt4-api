@@ -8,16 +8,23 @@ datasource db {
 }
 
 model Student {
-  id           Int       @id @default(autoincrement())
-  first_name   String    @db.VarChar(255)
-  last_name    String    @db.VarChar(255)
-  email        String    @unique @db.VarChar(255)
-  password     String    @db.VarChar(255)
-  created_at   DateTime  @default(now())
+  id           Int        @id @default(autoincrement())
+  first_name   String     @db.VarChar(255)
+  last_name    String     @db.VarChar(255)
+  email        String     @unique @db.VarChar(255)
+  password     String     @db.VarChar(255)
+  created_at   DateTime   @default(now())
   instance     Instance?
-  promotion    Promotion @relation(fields: [promotion_id], references: [id])
-  promotion_id Int
+  promotion    Promotion? @relation(fields: [promotion_id], references: [id])
+  promotion_id Int?
   grades       Grade[]
+  roles        Role[]
+}
+
+model Role {
+  id       Int       @id @default(autoincrement())
+  name     String
+  students Student[]
 }
 
 model Promotion {

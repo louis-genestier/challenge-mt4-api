@@ -6,7 +6,7 @@ CREATE TABLE `Student` (
     `email` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `promotion_id` INTEGER NOT NULL,
+    `promotion_id` INTEGER NULL,
 
     UNIQUE INDEX `Student_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -87,7 +87,7 @@ CREATE TABLE `_ChallengeToPromotion` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Student` ADD CONSTRAINT `Student_promotion_id_fkey` FOREIGN KEY (`promotion_id`) REFERENCES `Promotion`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Student` ADD CONSTRAINT `Student_promotion_id_fkey` FOREIGN KEY (`promotion_id`) REFERENCES `Promotion`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Instance` ADD CONSTRAINT `Instance_student_id_fkey` FOREIGN KEY (`student_id`) REFERENCES `Student`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -112,5 +112,3 @@ ALTER TABLE `_ChallengeToPromotion` ADD CONSTRAINT `_ChallengeToPromotion_A_fkey
 
 -- AddForeignKey
 ALTER TABLE `_ChallengeToPromotion` ADD CONSTRAINT `_ChallengeToPromotion_B_fkey` FOREIGN KEY (`B`) REFERENCES `Promotion`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-INSERT INTO `Promotion` (name) VALUES ('MT4 2021-2022');
