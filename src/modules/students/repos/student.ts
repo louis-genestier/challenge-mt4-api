@@ -25,8 +25,8 @@ export class StudentRepo {
       include: {
         roles: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
       },
     })
@@ -42,10 +42,10 @@ export class StudentRepo {
       include: {
         roles: {
           select: {
-            name: true
-          }
-        }
-      }
+            name: true,
+          },
+        },
+      },
     })
 
     return student

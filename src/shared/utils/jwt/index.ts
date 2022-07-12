@@ -4,7 +4,6 @@ import jwt, { Jwt, JwtPayload } from 'jsonwebtoken'
 import { config } from 'shared/config'
 import { IRole } from 'shared/types/role'
 
-
 export interface IJwtPayload {
   id: number
   email: string

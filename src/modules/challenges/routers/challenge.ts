@@ -11,15 +11,19 @@ export const challengeRouter = (): Router => {
 
   router.use(authenticateJwt)
 
-  router.get<Record<string, unknown>, Challenge[], Record<string, unknown>>('/', isAdmin, async (req, res, next) => {
-    try {
-      const challenges = await challengeController.findAll()
+  router.get<Record<string, unknown>, Challenge[], Record<string, unknown>>(
+    '/',
+    isAdmin,
+    async (req, res, next) => {
+      try {
+        const challenges = await challengeController.findAll()
 
-      return res.json(challenges)
-    } catch (e) {
-      next(e)
-    }
-  })
+        return res.json(challenges)
+      } catch (e) {
+        next(e)
+      }
+    },
+  )
 
   router.get('/:id', async (req: Request<{ id: string }>, res, next) => {
     try {

@@ -8,7 +8,7 @@ import { loginStudentDto } from 'modules/students/dtos/loginStudentDto'
 import { ApiError } from 'shared/infra/http/errors/apiError'
 import { HttpErrorCode } from 'shared/infra/http/errors/httpErrorCode'
 import { config } from 'shared/config'
-import { IStudentWithRoles } from '../interfaces/studentWithRoles';
+import { IStudentWithRoles } from '../interfaces/studentWithRoles'
 
 export class StudentController {
   private readonly studentRepo: StudentRepo
