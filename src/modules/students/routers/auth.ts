@@ -13,12 +13,12 @@ const studentCreatePostSchema = Joi.object().keys({
   last_name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
-  promotion_id: Joi.number().required()
+  promotion_id: Joi.number().required(),
 })
 
 const studentLoginPostSchema = Joi.object().keys({
   email: Joi.string().email().required(),
-  password: Joi.string().required()
+  password: Joi.string().required(),
 })
 
 export const authRouter = (): Router => {

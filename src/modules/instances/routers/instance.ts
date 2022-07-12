@@ -8,9 +8,11 @@ import { Instance } from '@prisma/client'
 import { validate } from 'shared/infra/http/middlewares/validate'
 
 const instancePostSchema = Joi.object().keys({
-  ip: Joi.string().ip({
-    version: ['ipv4']
-  }).required(),
+  ip: Joi.string()
+    .ip({
+      version: ['ipv4'],
+    })
+    .required(),
   user: Joi.string().required(),
 })
 
