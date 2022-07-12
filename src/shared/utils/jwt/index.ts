@@ -36,11 +36,16 @@ export class JWT {
     opts: jwt.VerifyOptions,
   ): Promise<IJwtPayload> {
     return new Promise((resolve, reject) => {
-      jwt.verify(token, secret, opts, (err: Error | null, decoded: Jwt | JwtPayload | string | undefined) => {
-        if (err) reject(err)
+      jwt.verify(
+        token,
+        secret,
+        opts,
+        (err: Error | null, decoded: Jwt | JwtPayload | string | undefined) => {
+          if (err) reject(err)
 
-        resolve(decoded as IJwtPayload)
-      })
+          resolve(decoded as IJwtPayload)
+        },
+      )
     })
   }
 
