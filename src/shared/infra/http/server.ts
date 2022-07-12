@@ -2,8 +2,10 @@ import express, { Express, json } from 'express'
 
 import { config } from 'shared/config'
 import { authRouter } from 'modules/students/routers/auth'
+import { instanceRouter } from 'modules/instances/routers/instance'
 import { errorHandler } from 'shared/infra/http/middlewares/errorHandler'
 import { logger } from 'shared/utils/logger'
+import { challengeRouter } from 'modules/challenges/routers/challenge'
 
 export class Server {
   private readonly app: Express
@@ -17,6 +19,8 @@ export class Server {
       const { port } = config.api
       this.app.use(json())
       this.app.use('/auth/user', authRouter())
+      this.app.use('/instances', instanceRouter())
+      this.app.use('/challenges', challengeRouter())
       this.app.use(errorHandler)
 
       await this.app.listen(port, () => {

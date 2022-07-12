@@ -4,6 +4,7 @@ import { registerUserDto } from 'modules/students/dtos/registerStudentDto'
 import { loginStudentDto } from 'modules/students/dtos/loginStudentDto'
 import { StudentController } from 'modules/students/controllers/student'
 import { responseAuthDto } from 'modules/students/dtos/responseAuthDto'
+import { responseRefreshTokenDTO } from 'modules/students/dtos/responseRefreshTokenDto'
 
 export const authRouter = (): Router => {
   const router = Router({ mergeParams: true })
@@ -27,6 +28,21 @@ export const authRouter = (): Router => {
       try {
         const response = await studentController.login(req.body)
         return res.json(response)
+      } catch (e) {
+        next(e)
+      }
+    },
+  )
+
+  router.post<Record<string, unknown>, responseRefreshTokenDTO, null>(
+    '/refresh_token',
+    async (req, res, next) => {
+      try {
+        const tokens = await studentController.refreshToken(
+          req.headers['refresh-token'] as string | undefined,
+        )
+
+        return res.json({ ...tokens })
       } catch (e) {
         next(e)
       }

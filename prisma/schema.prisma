@@ -79,6 +79,7 @@ model Question {
 model Challenge {
   id         Int         @id @default(autoincrement())
   name       String
+  is_open    Boolean     @default(true)
   promotions Promotion[]
   questions  Question[]
   grades     Grade[]

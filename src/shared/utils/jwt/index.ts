@@ -1,7 +1,14 @@
 import { Student } from '@prisma/client'
-import jwt from 'jsonwebtoken'
+import jwt, { Jwt, JwtPayload } from 'jsonwebtoken'
 
 import { config } from 'shared/config'
+import { role } from 'shared/types/roles'
+
+export interface IJwtPayload {
+  id: number
+  email: string
+  roles: role[]
+}
 
 export class JWT {
   private async sign(
@@ -20,6 +27,20 @@ export class JWT {
           resolve(encoded as string)
         },
       )
+    })
+  }
+
+  async verify(
+    token: string,
+    secret: string,
+    opts: jwt.VerifyOptions,
+  ): Promise<IJwtPayload> {
+    return new Promise((resolve, reject) => {
+      jwt.verify(token, secret, opts, (err: Error | null, decoded: Jwt | JwtPayload | string | undefined) => {
+        if (err) reject(err)
+
+        resolve(decoded as IJwtPayload)
+      })
     })
   }
 
