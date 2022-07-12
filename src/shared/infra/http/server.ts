@@ -8,6 +8,7 @@ import { errorHandler } from 'shared/infra/http/middlewares/errorHandler'
 import { logger } from 'shared/utils/logger'
 import { challengeRouter } from 'modules/challenges/routers/challenge'
 import { generateData } from 'shared/infra/db/fixtures'
+import { promotionRouter } from 'modules/promotions/routers/promotion'
 
 export class Server {
   private readonly app: Express
@@ -24,6 +25,7 @@ export class Server {
       this.app.use('/auth/user', authRouter())
       this.app.use('/instances', instanceRouter())
       this.app.use('/challenges', challengeRouter())
+      this.app.use('/promotions', promotionRouter())
       this.app.use(errorHandler)
       await generateData()
 
