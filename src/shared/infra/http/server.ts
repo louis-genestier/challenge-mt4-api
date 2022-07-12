@@ -6,6 +6,7 @@ import { instanceRouter } from 'modules/instances/routers/instance'
 import { errorHandler } from 'shared/infra/http/middlewares/errorHandler'
 import { logger } from 'shared/utils/logger'
 import { challengeRouter } from 'modules/challenges/routers/challenge'
+import { generateData } from 'shared/infra/db/fixtures'
 
 export class Server {
   private readonly app: Express
@@ -22,6 +23,7 @@ export class Server {
       this.app.use('/instances', instanceRouter())
       this.app.use('/challenges', challengeRouter())
       this.app.use(errorHandler)
+      await generateData()
 
       await this.app.listen(port, () => {
         logger.info(
