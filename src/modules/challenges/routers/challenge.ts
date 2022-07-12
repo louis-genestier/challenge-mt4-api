@@ -10,10 +10,10 @@ export const challengeRouter = (): Router => {
 
   router.use(authenticateJwt)
 
-  router.get('/:id', async (req: Request<{ id: number }>, res, next) => {
+  router.get('/:id', async (req: Request<{ id: string }>, res, next) => {
     try {
       const { id } = req.params
-      const challenge = await challengeController.findById(id)
+      const challenge = await challengeController.findById(+id)
       return res.json(challenge)
     } catch (e) {
       next(e)
@@ -23,10 +23,10 @@ export const challengeRouter = (): Router => {
   router.post(
     '/:id/close',
     isAdmin,
-    async (req: Request<{ id: number }>, res, next) => {
+    async (req: Request<{ id: string }>, res, next) => {
       try {
         const { id } = req.params
-        const challenge = await challengeController.close(id)
+        const challenge = await challengeController.close(+id)
         return res.json(challenge)
       } catch (e) {
         next(e)
