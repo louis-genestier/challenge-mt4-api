@@ -1,21 +1,21 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from '@prisma/client'
 
 export const generateData = async (): Promise<void> => {
   const prisma = new PrismaClient()
 
   const promotion = await prisma.promotion.upsert({
     where: {
-      id: 1
+      id: 1,
     },
     update: {},
     create: {
       name: 'MT4 2021-2022',
-    }
+    },
   })
 
   await prisma.challenge.upsert({
     where: {
-      id: 1
+      id: 1,
     },
     update: {},
     create: {
@@ -23,9 +23,9 @@ export const generateData = async (): Promise<void> => {
       name: 'Challenge shell',
       promotions: {
         connect: {
-          id: promotion.id
-        }
-      }
-    }
+          id: promotion.id,
+        },
+      },
+    },
   })
 }
