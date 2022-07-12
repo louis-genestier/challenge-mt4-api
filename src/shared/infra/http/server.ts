@@ -1,4 +1,5 @@
 import express, { Express, json } from 'express'
+import cors from 'cors'
 
 import { config } from 'shared/config'
 import { authRouter } from 'modules/students/routers/auth'
@@ -18,6 +19,7 @@ export class Server {
   async start() {
     try {
       const { port } = config.api
+      this.app.use(cors())
       this.app.use(json())
       this.app.use('/auth/user', authRouter())
       this.app.use('/instances', instanceRouter())
