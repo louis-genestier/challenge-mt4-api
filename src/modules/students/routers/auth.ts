@@ -16,7 +16,7 @@ const studentCreatePostSchema = Joi.object().keys({
   promotion_id: Joi.number().required(),
 })
 
-const studentLoginPostSchema = Joi.object().keys({
+export const studentLoginPostSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
 })

@@ -70,4 +70,25 @@ export class StudentController {
     const tokens = await this.jwt.getTokens(student)
     return tokens
   }
+
+  async loginAdmin(
+    dto: loginStudentDto,
+  ): Promise<{ student: Student; accessToken: string; refreshToken: string }> {
+    const student = await this.studentRepo.findByEmail(dto.email)
+
+    const isPasswordValid = await bcrypt.compare(
+      dto.password,
+      student?.password || '',
+    )
+
+    if (!student?.roles.find((role) => role.name === 'admin'))
+      throw new ApiError(HttpErrorCode.Unauthorized, 'unauthorized')
+
+    if (!isPasswordValid || !student)
+      throw new ApiError(HttpErrorCode.BadRequest, 'bad combination')
+
+    const tokens = await this.jwt.getTokens(student)
+
+    return { student, ...tokens }
+  }
 }

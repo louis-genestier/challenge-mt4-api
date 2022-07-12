@@ -9,6 +9,7 @@ import { logger } from 'shared/utils/logger'
 import { challengeRouter } from 'modules/challenges/routers/challenge'
 import { generateData } from 'shared/infra/db/fixtures'
 import { promotionRouter } from 'modules/promotions/routers/promotion'
+import { authRouterAdmin } from 'modules/students/routers/authAdmin'
 
 export class Server {
   private readonly app: Express
@@ -23,6 +24,7 @@ export class Server {
       this.app.use(cors())
       this.app.use(json())
       this.app.use('/auth/user', authRouter())
+      this.app.use('/admin/auth', authRouterAdmin())
       this.app.use('/instances', instanceRouter())
       this.app.use('/challenges', challengeRouter())
       this.app.use('/promotions', promotionRouter())

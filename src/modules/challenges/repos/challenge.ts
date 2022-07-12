@@ -9,7 +9,11 @@ export class ChallengeRepo {
   }
 
   async findAll(): Promise<Challenge[]> {
-    const challenges = await this.prisma.challenge.findMany()
+    const challenges = await this.prisma.challenge.findMany({
+      include: {
+        promotions: true,
+      },
+    })
 
     return challenges
   }
