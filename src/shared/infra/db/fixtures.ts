@@ -31,11 +31,11 @@ export const generateData = async (): Promise<void> => {
 
   await prisma.role.upsert({
     where: {
-      id: 1
+      id: 1,
     },
     update: {},
     create: {
-      name: 'admin'
-    }
+      name: 'admin',
+    },
   })
 }

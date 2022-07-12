@@ -8,6 +8,12 @@ export class ChallengeRepo {
     this.prisma = new PrismaClient()
   }
 
+  async findAll(): Promise<Challenge[]> {
+    const challenges = await this.prisma.challenge.findMany()
+
+    return challenges
+  }
+
   async findById(id: number): Promise<Challenge | null> {
     const challenge = await this.prisma.challenge.findUnique({
       where: { id },

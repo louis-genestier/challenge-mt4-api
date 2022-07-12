@@ -3,7 +3,7 @@ declare namespace Express {
     user: {
       id: number
       email: string
-      roles: string[]
+      roles: { name: string }[]
     }
   }
 }

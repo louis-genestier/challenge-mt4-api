@@ -3,12 +3,23 @@ import { Request, Router } from 'express'
 import { authenticateJwt } from 'shared/infra/http/middlewares/authenticateJwt'
 import { ChallengeController } from 'modules/challenges/controllers/challenge'
 import { isAdmin } from 'shared/infra/http/middlewares/isAdmin'
+import { Challenge } from '@prisma/client'
 
 export const challengeRouter = (): Router => {
   const router = Router({ mergeParams: true })
   const challengeController = new ChallengeController()
 
   router.use(authenticateJwt)
+
+  router.get<Record<string, unknown>, Challenge[], Record<string, unknown>>('/', isAdmin, async (req, res, next) => {
+    try {
+      const challenges = await challengeController.findAll()
+
+      return res.json(challenges)
+    } catch (e) {
+      next(e)
+    }
+  })
 
   router.get('/:id', async (req: Request<{ id: string }>, res, next) => {
     try {

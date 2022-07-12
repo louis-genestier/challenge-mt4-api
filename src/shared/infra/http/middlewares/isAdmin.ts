@@ -9,7 +9,7 @@ export const isAdmin = async (
   next: NextFunction,
 ) => {
   const { roles } = req.user
-  if (!roles?.includes('admin')) {
+  if (!roles?.find((role) => role.name === 'admin')) {
     return next(new ApiError(HttpErrorCode.Unauthorized, 'Unauthorized'))
   }
   next()

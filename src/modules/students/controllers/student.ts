@@ -8,6 +8,7 @@ import { loginStudentDto } from 'modules/students/dtos/loginStudentDto'
 import { ApiError } from 'shared/infra/http/errors/apiError'
 import { HttpErrorCode } from 'shared/infra/http/errors/httpErrorCode'
 import { config } from 'shared/config'
+import { IStudentWithRoles } from '../interfaces/studentWithRoles';
 
 export class StudentController {
   private readonly studentRepo: StudentRepo
@@ -26,7 +27,7 @@ export class StudentController {
     if (studentExists)
       throw new ApiError(HttpErrorCode.BadRequest, 'user already exists')
 
-    const student: Student = await this.studentRepo.save(dto)
+    const student = await this.studentRepo.save(dto)
     const tokens = await this.jwt.getTokens(student)
 
     return { student, ...tokens }
@@ -64,7 +65,8 @@ export class StudentController {
 
     const student = (await this.studentRepo.findByEmail(
       decoded.email,
-    )) as Student
+    )) as IStudentWithRoles
+
     const tokens = await this.jwt.getTokens(student)
     return tokens
   }

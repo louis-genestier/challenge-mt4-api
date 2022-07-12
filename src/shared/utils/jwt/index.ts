@@ -2,12 +2,17 @@ import { Student } from '@prisma/client'
 import jwt, { Jwt, JwtPayload } from 'jsonwebtoken'
 
 import { config } from 'shared/config'
-import { role } from 'shared/types/roles'
+import { IRole } from 'shared/types/role'
+
 
 export interface IJwtPayload {
   id: number
   email: string
-  roles: role[]
+  roles: IRole[]
+}
+
+interface IStudentWithRoles extends Student {
+  roles: IRole[]
 }
 
 export class JWT {
@@ -50,10 +55,10 @@ export class JWT {
   }
 
   async getTokens(
-    student: Student,
+    student: IStudentWithRoles,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const accessToken = await this.sign(
-      { id: student.id, email: student.email },
+      { id: student.id, email: student.email, roles: student.roles },
       config.jwt.accessToken.secret,
       { expiresIn: config.jwt.accessToken.exp },
     )

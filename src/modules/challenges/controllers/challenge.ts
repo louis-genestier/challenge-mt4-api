@@ -11,6 +11,11 @@ export class ChallengeController {
     this.challengeRepo = new ChallengeRepo()
   }
 
+  async findAll(): Promise<Challenge[]> {
+    const challenges = await this.challengeRepo.findAll()
+    return challenges
+  }
+
   async findById(id: number): Promise<Challenge> {
     const challenge = await this.challengeRepo.findById(id)
 
