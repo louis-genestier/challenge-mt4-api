@@ -1,10 +1,25 @@
 import { Router } from 'express'
+import Joi from 'joi'
 
 import { registerUserDto } from 'modules/students/dtos/registerStudentDto'
 import { loginStudentDto } from 'modules/students/dtos/loginStudentDto'
 import { StudentController } from 'modules/students/controllers/student'
 import { responseAuthDto } from 'modules/students/dtos/responseAuthDto'
 import { responseRefreshTokenDTO } from 'modules/students/dtos/responseRefreshTokenDto'
+import { validate } from 'shared/infra/http/middlewares/validate'
+
+const studentCreatePostSchema = Joi.object().keys({
+  first_name: Joi.string().required(),
+  last_name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+  promotion_id: Joi.number().required()
+})
+
+const studentLoginPostSchema = Joi.object().keys({
+  email: Joi.string().email().required(),
+  password: Joi.string().required()
+})
 
 export const authRouter = (): Router => {
   const router = Router({ mergeParams: true })
@@ -12,6 +27,7 @@ export const authRouter = (): Router => {
 
   router.post<Record<string, unknown>, responseAuthDto, registerUserDto>(
     '/',
+    validate(studentCreatePostSchema),
     async (req, res, next) => {
       try {
         const response = await studentController.createUser(req.body)
@@ -24,6 +40,7 @@ export const authRouter = (): Router => {
 
   router.post<Record<string, unknown>, responseAuthDto, loginStudentDto>(
     '/login',
+    validate(studentLoginPostSchema),
     async (req, res, next) => {
       try {
         const response = await studentController.login(req.body)
