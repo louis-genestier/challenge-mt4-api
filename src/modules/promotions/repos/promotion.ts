@@ -13,11 +13,15 @@ export class PromotionRepo {
     challengeId: number,
   ): Promise<IStudentGrade[]> {
     const grades = await this.prisma.grade.findMany({
+      distinct: ['student_id'],
       where: {
         challenge_id: challengeId,
         student: {
           promotion_id: promotionId,
         },
+      },
+      orderBy: {
+        created_at: 'desc',
       },
       select: {
         grade: true,

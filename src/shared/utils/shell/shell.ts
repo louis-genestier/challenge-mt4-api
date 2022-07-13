@@ -8,7 +8,10 @@ export class Shell {
     this.conn = new Client()
   }
 
-  async exec(ctx: ConnectConfig, command: string) {
+  async exec(
+    ctx: ConnectConfig,
+    command: string,
+  ): Promise<{ stdout: string; stderr: string }> {
     const privateKey = await readFile('private-key')
 
     let stdout: string, stderr: string
@@ -16,22 +19,24 @@ export class Shell {
       this.conn
         .on('ready', () => {
           this.conn.exec(command, (err, stream) => {
-            if (err) reject(err)
+            if (err) {
+              reject(err)
+              return
+            }
             stream
               .on('close', () => {
                 this.conn.end()
+                resolve({ stdout, stderr })
               })
               .on('data', (data: string) => {
-                stdout = data
+                stdout = data.toString().trim()
               })
               .stderr.on('data', (data: string) => {
-                stderr = data
+                stderr = data.toString().trim()
               })
           })
         })
-        .connect({ ...ctx, privateKey })
-
-      resolve({ stdout, stderr })
+        .connect({ ...ctx, privateKey, readyTimeout: 1500 })
     })
   }
 }

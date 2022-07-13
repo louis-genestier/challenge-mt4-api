@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { Challenge } from '@prisma/client'
+import { Challenge, Question } from '@prisma/client'
 
 export class ChallengeRepo {
   private readonly prisma: PrismaClient
@@ -18,9 +18,20 @@ export class ChallengeRepo {
     return challenges
   }
 
-  async findById(id: number): Promise<Challenge | null> {
+  async findById(
+    id: number,
+    includeQuestions: boolean,
+  ): Promise<
+    | (Challenge & {
+        questions: Question[]
+      })
+    | null
+  > {
     const challenge = await this.prisma.challenge.findUnique({
       where: { id },
+      include: {
+        questions: includeQuestions,
+      },
     })
 
     return challenge

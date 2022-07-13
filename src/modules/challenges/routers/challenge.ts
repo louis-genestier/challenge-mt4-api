@@ -49,5 +49,16 @@ export const challengeRouter = (): Router => {
     },
   )
 
+  router.get('/:id/start', async (req: Request<{ id: string }>, res, next) => {
+    try {
+      const { id } = req.params
+      const data = await challengeController.startChallenge(+id, +req.user.id)
+
+      return res.json({ ...data })
+    } catch (e) {
+      next(e)
+    }
+  })
+
   return router
 }

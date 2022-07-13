@@ -10,8 +10,16 @@ export class InstanceRepo {
   }
 
   async save(dto: CreateInstanceWithStudentDto): Promise<Instance> {
-    const instance = await this.prisma.instance.create({
-      data: dto,
+    const instance = await this.prisma.instance.upsert({
+      where: {
+        student_id: dto.student_id,
+      },
+      update: {
+        ...dto,
+      },
+      create: {
+        ...dto,
+      },
     })
 
     return instance
