@@ -9,7 +9,10 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "migrate": "npx prisma migrate dev"
+    "migrate": "npx prisma migrate dev",
+    "migrate:prod": "npx prisma migrate deploy",
+    "prod": "node ./dist/index.js",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

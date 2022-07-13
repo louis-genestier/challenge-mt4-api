@@ -1,0 +1,13 @@
+FROM node:18-alpine AS api-builder
+WORKDIR app
+COPY . .
+RUN npm install
+RUN npm run build
+
+FROM node:18-alpine AS api
+WORKDIR app
+COPY --from=api-builder /app/build ./build
+COPY package* ./
+RUN npm install --omit=dev
+RUN npm run migrate:prod
+CMD npm run prod
